@@ -29,6 +29,15 @@ export default class SocketHandler{
             scene.ball.start(data.side,data.angle,data.velocity);
         });
 
+        this.scoreChange = (leftScore,rightScore) =>{
+            scene.socket.emit('scoreChangeTo',{leftScore:leftScore,rightScore:rightScore})
+        }
+
+        scene.socket.on('setScoreTo',(data)=>{
+            scene.interact.gameStatus.leftScore = data.leftScore;
+            scene.interact.gameStatus.rightScore = data.rightScore;
+            scene.ball.reset();
+        })
         //Ask for the server to start the ball
         this.ballStart = () =>{
             scene.socket.emit('newRound');
@@ -48,8 +57,8 @@ export default class SocketHandler{
             scene.opponentPaddle.body.velocity.y = data.opponent;
         })
 
-        this.sendPlayerChoice = (choice)=>{
-            scene.socket.emit('choice',{playerGuess:choice,actuallyType:opponent,leftScore:leftScore,rightScore:rightScore})
+        this.sendPlayerChoice = (playerGuess,actuallyType)=>{
+            scene.socket.emit('choice',{playerGuess:playerGuess,actuallyType:actuallyType})
         }
 
         this.disconnect = () =>{

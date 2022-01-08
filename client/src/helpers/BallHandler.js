@@ -17,8 +17,8 @@ export default class BallHandler extends Phaser.GameObjects.Sprite {
 		this.play("BALL_ANIMATION");
 		this.anims.create({
 			key: 'BALL_ANIMATION',
-			frames: this.anims.generateFrameNumbers('BALL_SPRITE', { frames: [0, 1, 2, 3] }),
-			frameRate: 6,
+			frames: this.anims.generateFrameNumbers('BALL_SPRITE', { frames: [0, 0, 0, 1, 2, 3] }),
+			frameRate: 20,
 			yoyo: false,
 			repeat: -1
 		});
@@ -38,10 +38,5 @@ export default class BallHandler extends Phaser.GameObjects.Sprite {
 		this.isMoving = true;
 	}
 
-	// setBallPosition(velocity,angle){
-	//
-	// 	this.body.setVelocity(velocity);
-	// 	this.body.setAngularVelocity(angle);
-	// }
 }
 

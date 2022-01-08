@@ -33,27 +33,6 @@ export default class InteractHandler {
             this.enablePhysics();
         }
 
-        // this.setGameStatus = (isPlayer,type) => {
-        //     console.log("I am used");
-        //     this.gameStatus.isPlayer = isPlayer;
-        //     this.gameStatus.opponentType = type;
-        //     console.log("GameState: " + this.gameStatus.isPlayer + " " + this.gameStatus.opponentType);
-        // }
-
-        // this.assignPaddles = () =>{
-        //     scene.playerPaddle = new HumanPaddle({ scene: scene, x: 20, y: 300, key: "PADDLE_SPRITE" });
-        //     // scene.opponentPaddle = new PaddleHandler({ scene: scene, x: scene.game.config.width - 46, y: 300, key: "PADDLE_SPRITE" });
-        //      console.log(this.gameStatus.opponentType);
-        //
-        //     switch (this.gameStatus.opponentType){
-        //         case 0 : scene.opponentPaddle = new HumanPaddle({ scene: scene, x: scene.game.config.width - 46, y: 300, key: "PADDLE_SPRITE" });break;
-        //         case 1 : scene.opponentPaddle = new AIPaddle({ scene: scene, x: scene.game.config.width - 46, y: 300, key: "PADDLE_SPRITE" });break;
-        //         case 2 : scene.opponentPaddle = new AIPaddle({ scene: scene, x: scene.game.config.width - 46, y: 300, key: "PADDLE_SPRITE" });break;
-        //         default: scene.opponentPaddle = new HumanPaddle({ scene: scene, x: scene.game.config.width - 46, y: 300, key: "PADDLE_SPRITE" });break;
-        //     }
-        //
-        // }
-
         this.assignPaddles = () => {
             scene.playerPaddle = new PaddleHandler({scene: scene, x: 20, y: 500, key: "PADDLE_SPRITE"});
             scene.opponentPaddle = new PaddleHandler({
@@ -99,20 +78,19 @@ export default class InteractHandler {
         this.checkInput = () => {
             if (scene.keys.start.isDown && !scene.ball.isMoving) {
                 scene.socketHandler.ballStart();
-                console.log("space is pressed");
+                console.log("new round start");
             }
         }
 
         this.updateScore = () => {
             if (scene.ball.x < 0) {
                 console.log("right score");
-                this.gameStatus.rightScore += 1;
-                scene.ball.reset();
+                scene.socketHandler.scoreChange(this.gameStatus.leftScore,this.gameStatus.rightScore + 1);
+
             }
             if (scene.ball.x > 1500) {
                 console.log("left score");
-                this.gameStatus.leftScore += 1;
-                scene.ball.reset();
+                scene.socketHandler.scoreChange(this.gameStatus.leftScore + 1,this.gameStatus.rightScore + 1);
             }
             scene.displayUI.changeScoreText(this.gameStatus.leftScore, this.gameStatus.rightScore);
         }

@@ -34,7 +34,6 @@ export default class FuzzySet {
     rightShoulderDom(value){
         if(value <= this.peakPoint && value > this.peakPoint - this.leftOffset){
             let gradient = 1.00 / this.leftOffset;
-            console.log(gradient);
             return gradient * (value - (this.peakPoint - this.leftOffset));
         }
 

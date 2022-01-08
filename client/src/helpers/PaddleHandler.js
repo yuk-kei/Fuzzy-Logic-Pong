@@ -66,7 +66,6 @@ export default class PaddleHandler extends Phaser.GameObjects.Sprite {
 		let downSpeed = -20 * speedDownSet.leftShoulderDom(diff);
 		//calculate desirability, it omit the unnecessary calculation including keepSeed and divide the sum of fuzzySet DOMs
 		aiSpeed += downSpeed + upSpeed;
-		console.log("v: "+aiSpeed);
 
 		this.body.setVelocityY(aiSpeed);
 		this.body.y += this.body.velocity.y;

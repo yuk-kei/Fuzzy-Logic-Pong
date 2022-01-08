@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
 import Pong from "./scenes/Pong"
-import logoImg from './assets/logo.png';
 import MenuScene from "./scenes/MenuScene";
 import GameOver from "./scenes/GameOver";
 
@@ -12,9 +11,6 @@ const config = {
         height:1000
     },
     scene:[MenuScene,Pong,GameOver],
-    dom: {
-        createContainer: true
-    },
     physics: {
         default: 'arcade',
         arcade: {

@@ -1,0 +1,34 @@
+{
+	"results": [
+		{
+			"playerGuess": "Human Opponent",
+			"actuallyType": "Fuzzy AI",
+			"result": "Player VS Opponent = 0 : 3"
+		},
+		{
+			"playerGuess": "AI Opponent",
+			"actuallyType": "Traditional AI",
+			"result": "Player VS Opponent = 0 : 3"
+		},
+		{
+			"playerGuess": "AI Opponent",
+			"actuallyType": "Human Opponent",
+			"result": "Player VS Opponent = 3 : 3"
+		},
+		{
+			"playerGuess": "Human Opponent",
+			"actuallyType": "Human Opponent",
+			"result": "Player VS Opponent = 3 : 3"
+		},
+		{
+			"playerGuess": "Human Opponent",
+			"actuallyType": "Human Opponent",
+			"result": "Player VS Opponent = 3 : 3"
+		},
+		{
+			"playerGuess": "Human Opponent",
+			"actuallyType": "Human Opponent",
+			"result": "Player VS Opponent = 3 : 3"
+		}
+	]
+}

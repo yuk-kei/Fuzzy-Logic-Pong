@@ -4,6 +4,7 @@ const serveStatic = require('serve-static');
 const port = process.env.PORT || 5000;
 const cors = require('cors');
 const fs = require('fs');
+const jsonFilePath = 'JSONFiles/result.json';
 
 let players = {};
 let hasPlayer = false;
@@ -67,6 +68,11 @@ io.on('connection',function(socket){
         angle: (Math.random() * (-Math.PI / 4 - Math.PI / 4) + Math.PI / 4).toFixed(2)
     }
 
+    socket.score = {
+        leftScore: 0,
+        rightScore: 0
+    }
+
     socket.on('getInfo',function (){
         console.log("send game status");
         io.emit('sendOpponent',players[socket.id]);
@@ -80,33 +86,61 @@ io.on('connection',function(socket){
         io.emit('paddleMove',socket.paddle);
     });
 
+    socket.on('scoreChangeTo',function (data){
+        socket.score.leftScore = data.leftScore;
+        socket.score.rightScore = data.rightScore;
+
+        io.emit('setScoreTo',socket.score);
+    });
+
     socket.on('newRound',function(){
         console.log("new round start");
         io.emit('start',ballInit);
     });
 
     socket.on('choice',function (data){
+        let object ={
+            results: []
+        }
 
         let result = {
             playerGuess: data.playerGuess,
             actuallyType: data.actuallyType,
-            result: "Player VS Opponent = " + data.leftScore + " : " + data.rightScore
+            result: "Player VS Opponent = " + socket.score.leftScore + " : " + socket.score.rightScore
         }
 
-        fs.readFile('./result.json', 'utf8', function readFileCallback(err, data){
-            if (err){
-                console.log(err);
-            } else {
-                let origin = JSON.parse(data); //now it an object
-                origin.table.push(result); //add some data
-                let resultJson = JSON.stringify(origin); //convert it back to json
-                fs.writeFile('result.json', resultJson, 'utf8', function(err) {
+        try {
+            if(!fs.existsSync(jsonFilePath)){
+                object.results.push(result);
+                let resultJson = JSON.stringify(object,null, '\t');
+
+                fs.writeFile(jsonFilePath, resultJson, 'utf8', function(err) {
                     if(err) {
                         return console.log(err);
                     }
-                    console.log("The file was saved!");
+                    console.log("The file was created!");
                 }); // write it back
-            }});
+            } else {
+                fs.readFile(jsonFilePath, 'utf8', function readFileCallback(err, content){
+                    if (err){
+                        console.log(err);
+                    } else {
+                        object = JSON.parse(content); //now it an object
+                        object.results.push(result); //add some data
+                        let resultJson = JSON.stringify(object,null, '\t'); //convert it back to json
+
+                        fs.writeFile(jsonFilePath, resultJson, 'utf8', function(err) {
+                            if(err) {
+                                return console.log(err);
+                            }
+                            console.log("The file was saved!");
+                        }); // write it back
+                    }});
+            }
+
+        } catch(err) {
+            console.error(err)
+        }
 
     })
     //failed codes:

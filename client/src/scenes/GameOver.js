@@ -1,5 +1,4 @@
 import Phaser from "phaser"
-import SocketHandler from "../helpers/SocketHandler";
 import MenuButton from "../helpers/MenuButton";
 
 export default class GameOver extends Phaser.Scene {
@@ -13,7 +12,7 @@ export default class GameOver extends Phaser.Scene {
         if (data.leftScore > data.rightScore) {
             titleText = 'You Win !'
         }
-        this.add.text(600, 200, titleText, {
+        this.add.text(560, 200, titleText, {
             fontFamily: "Trebuchet MS",
             fontSize: 72
         })
@@ -24,11 +23,36 @@ export default class GameOver extends Phaser.Scene {
         })
 
         this.input.keyboard.once('keydown-SPACE', () => {
-            data.socketHandler.disconnect();
-            this.scene.start("MENU_SCENE")
+            this.backToMenu();
         })
 
-        this.humanPlayerButton = new MenuButton(this, 600, 600, "Human Opponent", () => { this.scene.start("PONG"); });
-        this.traditionalAIButton = new MenuButton(this, 900, 600, "AI Opponent", () => { this.scene.start("PONG"); });
+        this.humanPlayerButton = new MenuButton(this, 600, 600, "Human Opponent", () => {
+            let opponentName = this.opponentName(data.opponentType);
+            data.socketHandler.sendPlayerChoice('Human Opponent',opponentName);
+
+            this.backToMenu();
+        });
+
+        this.traditionalAIButton = new MenuButton(this, 900, 600, "AI Opponent", () => {
+            let opponentName = this.opponentName(data.opponentType);
+            data.socketHandler.sendPlayerChoice('AI Opponent',opponentName);
+
+            this.backToMenu();
+        });
+
+        this.backToMenu = () =>{
+            data.socketHandler.disconnect();
+            this.scene.start("MENU_SCENE");
+        }
     }
+
+    opponentName(opponentType){
+        switch (opponentType){
+            case 0 : return 'Human Opponent';
+            case 1 : return 'Traditional AI';
+            case 2 : return 'Fuzzy AI';
+            default: return 'AI Opponent';
+        }
+    }
+
 }
