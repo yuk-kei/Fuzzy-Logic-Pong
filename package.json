@@ -1,11 +1,15 @@
 {
-  "name": "fuzzy-logic-pong",
+  "name": "fuzzy-logic-pong-sever",
   "version": "1.0.0",
-  "description": "",
+  "description": "The sever side of Pong game made with Phaser, Node.js and Socket.io.",
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuk-kei/Fuzzy-Logic-Pong.git"
   },
   "keywords": [
     "Phaser",
@@ -14,8 +18,13 @@
     "Node.js",
     "socket.io"
   ],
-  "author": "",
+  "author": "Yukkei",
   "license": "MIT",
+  "licenseUrl": "http://www.opensource.org/licenses/mit-license.php",
+  "bugs": {
+    "url": "https://github.com/yuk-kei/Fuzzy-Logic-Pong/issues"
+  },
+  "homepage": "https://github.com/yuk-kei/Fuzzy-Logic-Pong#readme",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.2",
